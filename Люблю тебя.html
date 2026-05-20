@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Для Камилы 💙</title>
+
+<style>
+:root{
+    --bg:#ffffff;
+    --text:#1f1f1f;
+    --muted:#666;
+    --line:#d9d9d9;
+    --shadow:0 10px 30px rgba(0,0,0,0.08);
+    --radius:20px;
+    --max-width:1100px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height:1.7;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* Декоративный фон */
+body::before{
+    content:"♥ ✦ ♥ ✦ ♥";
+    position:fixed;
+    top:20px;
+    left:20px;
+    font-size:14px;
+    color:#d0d0d0;
+    letter-spacing:8px;
+    pointer-events:none;
+}
+
+body::after{
+    content:"✦ ♥ ✦ ♥ ✦";
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    font-size:14px;
+    color:#d0d0d0;
+    letter-spacing:8px;
+    pointer-events:none;
+}
+
+.container{
+    width:min(var(--max-width), calc(100% - 40px));
+    margin:0 auto;
+}
+
+/* Приветственный экран */
+#welcome{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+}
+
+.hero{
+    max-width:760px;
+    border:1px solid var(--line);
+    border-radius:30px;
+    padding:60px 40px;
+    box-shadow:var(--shadow);
+    background:#fff;
+    position:relative;
+}
+
+.hero::before,
+.hero::after{
+    position:absolute;
+    color:#c7c7c7;
+    font-size:18px;
+}
+
+.hero::before{
+    content:"✦";
+    top:20px;
+    left:25px;
+}
+
+.hero::after{
+    content:"♥";
+    bottom:20px;
+    right:25px;
+}
+
+h1{
+    font-size:clamp(2.2rem, 6vw, 4.5rem);
+    margin-bottom:20px;
+    font-weight:normal;
+}
+
+.subtitle{
+    font-size:clamp(1rem, 2.5vw, 1.4rem);
+    color:var(--muted);
+    margin-bottom:40px;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    transition:.35s ease;
+}
+
+.primary-btn{
+    background:#111;
+    color:#fff;
+    padding:14px 36px;
+    border-radius:999px;
+    font-size:1.05rem;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+}
+
+/* Основной контент */
+#main{
+    display:none;
+    padding:60px 0 80px;
+    animation:fadeIn 1s ease;
+}
+
+.letter{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:40px;
+    margin-bottom:40px;
+    position:relative;
+}
+
+.letter::before{
+    content:"...........................................................";
+    display:block;
+    color:#cfcfcf;
+    margin-bottom:20px;
+    letter-spacing:2px;
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.letter p{
+    margin-bottom:14px;
+    font-size:1.05rem;
+}
+
+.counter{
+    text-align:center;
+    margin:30px 0 20px;
+    color:var(--muted);
+    font-size:1rem;
+}
+
+/* Сетка карточек */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:24px;
+    margin-top:20px;
+}
+
+.flip-card{
+    perspective:1000px;
+    height:240px;
+    opacity:0;
+    transform:translateY(30px);
+    animation:cardAppear .7s ease forwards;
+}
+
+.flip-card:nth-child(1){animation-delay:.05s;}
+.flip-card:nth-child(2){animation-delay:.10s;}
+.flip-card:nth-child(3){animation-delay:.15s;}
+.flip-card:nth-child(4){animation-delay:.20s;}
+.flip-card:nth-child(5){animation-delay:.25s;}
+.flip-card:nth-child(6){animation-delay:.30s;}
+.flip-card:nth-child(7){animation-delay:.35s;}
+.flip-card:nth-child(8){animation-delay:.40s;}
+.flip-card:nth-child(9){animation-delay:.45s;}
+.flip-card:nth-child(10){animation-delay:.50s;}
+
+.flip-card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform .8s;
+    transform-style:preserve-3d;
+}
+
+.flip-card.open .flip-card-inner{
+    transform:rotateY(180deg);
+}
+
+.card-face{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+}
+
+.card-front{
+    cursor:pointer;
+}
+
+.card-front h3{
+    font-size:1.15rem;
+    font-weight:normal;
+}
+
+.card-front .hint{
+    margin-top:14px;
+    font-size:.9rem;
+    color:#999;
+}
+
+.card-back{
+    transform:rotateY(180deg);
+    text-align:left;
+    overflow:auto;
+}
+
+.card-back p{
+    font-size:1rem;
+}
+
+textarea{
+    width:100%;
+    min-height:110px;
+    margin-top:12px;
+    border:1px solid #cfcfcf;
+    border-radius:12px;
+    padding:12px;
+    font-family:inherit;
+    resize:vertical;
+    font-size:0.95rem;
+}
+
+textarea:focus{
+    outline:none;
+    border-color:#888;
+}
+
+.quote{
+    margin:60px auto 30px;
+    text-align:center;
+    max-width:700px;
+    font-style:italic;
+    color:#555;
+    font-size:1.1rem;
+    padding:0 20px;
+}
+
+.print-btn-wrap{
+    text-align:center;
+    margin-top:20px;
+}
+
+.hidden-message{
+    display:none;
+    margin:40px auto 0;
+    text-align:center;
+    padding:24px;
+    border:1px dashed #aaa;
+    border-radius:18px;
+    background:#fafafa;
+    max-width:700px;
+    font-size:1.15rem;
+    animation:fadeIn 1s ease;
+}
+
+/* Анимации */
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes cardAppear{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Мобильная версия */
+@media (max-width: 600px){
+    .hero{
+        padding:45px 25px;
+    }
+
+    .letter{
+        padding:28px 22px;
+    }
+
+    .card-face{
+        padding:20px;
+    }
+
+    .flip-card{
+        height:220px;
+    }
+}
+
+/* Печать */
+@media print{
+    #welcome{
+        display:none !important;
+    }
+
+    #main{
+        display:block !important;
+        padding:0;
+    }
+
+    .primary-btn,
+    .hint{
+        display:none !important;
+    }
+
+    body{
+        background:#fff;
+        color:#000;
+    }
+
+    .letter,
+    .card-face,
+    .hidden-message{
+        box-shadow:none;
+        break-inside:avoid;
+    }
+
+    .cards{
+        gap:16px;
+    }
+
+    textarea{
+        border:1px solid #000;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Приветственный экран -->
+<section id="welcome">
+    <div class="hero">
+        <h1>Для Камилы 💙</h1>
+        <p class="subtitle">20 маленьких частичек меня для тебя на это лето</p>
+        <button class="primary-btn" onclick="openGift()">Открыть</button>
+    </div>
+</section>
+
+<!-- Основной контент -->
+<main id="main">
+    <div class="container">
+
+        <section class="letter">
+            <p>Привет!</p>
+            <p>
+                Я сделал эту маленькую страницу, чтобы даже на расстоянии
+                частичка меня оставалась рядом с тобой.
+            </p>
+            <p>
+                Надеюсь, она будет вызывать у тебя улыбку и напоминать обо мне.
+            </p>
+            <p>
+                Не открывай всё сразу.
+            </p>
+            <p>
+                Оставь немного тепла на разные моменты этого лета.
+            </p>
+        </section>
+
+        <div class="counter" id="counter">Открыто карточек: 0 из 10</div>
+
+        <section class="cards" id="cards">
+
+            <!-- 1 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда соскучишься.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>Я тоже скучаю по тебе.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда тебе грустно.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>Даже самый тяжёлый день обязательно закончится.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда захочешь улыбнуться.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Представь, как я сейчас пытаюсь придумать умную фразу
+                            и улыбаюсь, думая о тебе.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда не можешь уснуть.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Спокойной ночи. Пусть тебе приснится что-то тёплое
+                            и хорошее.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда захочешь сдаться.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>Сдаться ты всегда успеешь.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда начнёшь сомневаться в себе.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Если это делает тебя счастливой,
+                            это не должно иметь смысл для кого-то другого.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда мы поссоримся.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Одна ссора не способна изменить то,
+                            что ты для меня значишь.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда захочешь почувствовать, что я рядом.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>Мысленно обнимаю тебя.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой, когда захочешь оставить мне ответ.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Напиши здесь всё, что захочешь,
+                            а потом покажи это мне.
+                        </p>
+                        <textarea placeholder="Твои мысли..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="flip-card" onclick="toggleCard(this)">
+                <div class="flip-card-inner">
+                    <div class="card-face card-front">
+                        <h3>Открой в последний день лета.</h3>
+                        <div class="hint">Нажми, чтобы открыть</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <p>
+                            Спасибо, что сохранила эти письма.
+                            Я очень жду нашей встречи.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="hidden-message" id="hiddenMessage">
+            Спасибо, что прошла это лето вместе со мной. 💙
+        </div>
+
+        <div class="quote">
+            «Как бы далеко ты ни была, часть меня всегда рядом с тобой.»
+        </div>
+
+        <div class="print-btn-wrap">
+            <button class="primary-btn" onclick="window.print()">
+                Сохранить как воспоминание
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<script>
+function openGift() {
+    document.getElementById('welcome').style.display = 'none';
+    const main = document.getElementById('main');
+    main.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let openedCards = new Set();
+
+function toggleCard(card) {
+    const cards = Array.from(document.querySelectorAll('.flip-card'));
+    const index = cards.indexOf(card);
+
+    card.classList.toggle('open');
+
+    if (card.classList.contains('open')) {
+        openedCards.add(index);
+    }
+
+    updateCounter();
+}
+
+function updateCounter() {
+    const total = 10;
+    const opened = openedCards.size;
+
+    document.getElementById('counter').textContent =
+        `Открыто карточек: ${opened} из ${total}`;
+
+    if (opened === total) {
+        document.getElementById('hiddenMessage').style.display = 'block';
+    }
+}
+
+/* Не переворачивать карточку при клике внутри textarea */
+document.addEventListener('click', function(e){
+    if (e.target.tagName.toLowerCase() === 'textarea') {
+        e.stopPropagation();
+    }
+});
+</script>
+
+</body>
+</html>
